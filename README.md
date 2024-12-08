@@ -43,7 +43,7 @@ To run the code in this repository, you need the following:
 
 <h5>Usage</h5>
 <h6>Clone the repository:</h6>
-use code: git clone https://github.com/yourusername/vae-latent-representations.git
+use code: git clone https://github.com/Rukayat-spec/Variational_Autoencoder.git
 
 <h5>License</h5>
 This project is licensed under the MIT License. See the LICENSE file for more details.
