@@ -1,67 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exploring Variational Autoencoders</title>
-</head>
-<body>
-    <h1>Exploring Variational Autoencoders (VAEs): A Deep Dive into Latent Representations and Data Generation</h1>
-    <p>One of the most potent and adaptable tools in generative modelling are variational autoencoders (VAEs), which combine neural network designs with probabilistic techniques. VAEs are examined in this tutorial, which covers their applications, mathematical underpinnings, architecture, and implementation. You will get an understanding of VAEs and practical experience with their implementation at the conclusion, enabling you to apply them in your own work.</p>
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{Exploring Variational Autoencoders (VAEs): A Deep Dive into Latent Representations and Data Generation}
+\author{RUKAYAT ARAMIDE IBRAHIM}
+\date{December 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+One of the most potent and adaptable tools in generative modelling are variational autoencoders (VAEs), which combine neural network designs with probabilistic techniques. VAEs are examined in this tutorial, which covers their applications, mathematical underpinnings, architecture, and implementation. You will get an understanding of VAEs and practical experience with their implementation at the conclusion, enabling you to apply them in your own work.
+
+
+\section{ What is an Autoencoder?}
+
+ \begin{figure}
+     \centering
+     \includegraphics[width=0.8\linewidth]{image.png}
+     \caption{A pictorial representation of an autoencoder network model (Wang et al., 2023).}
+ \end{figure}
+ 
+An artificial neural network type called an autoencoder is made to develop effective representations of input data, often known as latent representations. By teaching the network to reconstruct the input data from its compressed, encoded form, it accomplishes this. Since autoencoders learn directly from the data by minimising reconstruction error, they are regarded as unsupervised learning models because they do not require labelled input.
+
+\subsection{Structure of an Autoencoder}
+An autoencoder consists of two main parts:
+\subsubsection{Encoder:}
+\begin{itemize}
+\item	The encoder compresses the input data into a compact, lower-dimensional latent representation.
+\item This process reduces the dimensionality of the data and captures its most important features, essentially learning a compressed summary of the input.
+\item	Mathematically, the encoder maps the input x to the latent representation z, z=f(x), where f is a function defined by the encoder’s neural network layers.
+\end{itemize}
+
+\subsubsection{Decoder:}
+\begin{itemize}
+\item The decoder takes the latent representation z and reconstructs it back to the original data space.
+\item   It attempts to regenerate an output \(x^{*}\) that closely resembles the input x.
+\item  Mathematically, the decoder maps z to \((x^{*}\), \(x^{*}\) = g (z ), where g is the function defined by the layers of the neural network of the decoder.
+\end{itemize}
+
+Together, the encoder and decoder form a symmetric architecture that learns how to compress and reconstruct the data.
+\subsection{Applications of Autoencoders}
+\begin{itemize}
+\item Data Compression: By compressing high-dimensional data (such pictures or movies) into a lower-dimensional latent space, autoencoders can improve the efficiency of data transmission and storage. An image can be compressed into a smaller vector, for instance, to conserve storage space without significantly sacrificing information.
+\item	Noise Reduction: By training on both clean and noisy versions of the input, autoencoders can learn to remove noise from data. One common variation created especially for this use is denoising autoencoders.
+\item Anomaly Detection: Autoencoders can recognise anomalies as situations where reconstruction error is high by learning to reconstruct typical patterns in data. This application is frequently used in medical diagnostics, fraud detection, and industrial defect detection.
+\item	Feature Extraction: The key characteristics of the data are captured by the encoder's learnt latent space representation, which can then be fed into other machine learning algorithms.
+\end{itemize}
+
+\subsection{Limitations of Standard Autoencoders}
+\begin{itemize}
+
+\item Deterministic Nature: For given inputs, standard autoencoders generate fixed, predictable latent representations. For identical inputs, the hidden representation remains constant after training. This restricts their capacity to produce a range of outputs or investigate data variations.
+\item Generative Modeling: Conventional autoencoders are not generative by nature; they are unable to produce novel, significant examples that closely resemble the training set.
+
+
+Variational Autoencoders (VAEs), which incorporate a probabilistic framework into the architecture, were made possible by these constraints. Better generative modelling and seamless data space exploration are made possible by VAEs, which learn a distribution in the latent space as opposed to fixed points.
+\end{itemize}
+
+\section{Introduction to Variational Autoencoders (VAEs)}
+A probabilistic framework for latent space representation is incorporated into Variational Autoencoders (VAEs), which are an extension of ordinary autoencoders. VAEs translate inputs into probability distributions in the latent space as opposed to typical autoencoders, which encode inputs into fixed latent points. Multivariate Gaussian distributions with a mean vector (μ) and a standard deviation vector (σ) are commonly used to parameterise these distributions. VAEs are effective tools for generative modelling because of their probabilistic methodology, which allows them to sample from these distributions.
+\subsection{Why Use VAEs?}
+\begin{itemize}
+\item Generative Modeling: New data points that mirror the training data can be produced using VAEs. For instance, a VAE may produce realistic new digit images given a dataset of handwritten digits.
+\item Probabilistic Interpretation: VAEs provide insights into uncertainty and underlying patterns by capturing the inherent variability in the data through the encoding of data into distributions.
+\item Smooth Latent Space: Smooth transitions between generated samples are made possible by the continuous and structured latent space in VAEs. For uses like interpolating between two data points or visual morphing, this feature is essential.
+Because VAEs' probabilistic nature makes both representation learning and data generation easier, they are frequently utilised in applications including picture synthesis, text generation, and anomaly detection.
+\end{itemize}
+
+\section{Key Components of VAEs}
+A VAE comprises three primary components: an encoder, a decoder, and a latent space.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{image2.png}
+    \caption{Enter Caption}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\textbf{Encoder} \\
+
+A probability distribution (such as Gaussian) defines the latent representation to which the encoder converts input data. Two parameters are output by it:
+\begin{itemize}
+  \item Mean (\(\mu\)): The center of the distribution.
+    \item Variance (\(\sigma^2\)): The spread of the distribution.
+\end{itemize}
+
+\textbf{Latent Space} \\
+
+A condensed, probabilistic representation of the input data is called the latent space. Each input is represented by a distribution rather than a fixed number, allowing for sampling and seamless data point transitions.
+
+\textbf{Decoder} \\
+
+Data from the latent space is reconstructed by the decoder. It takes a latent variable that has been sampled and produces output that is comparable to the initial input.
+
+\section{Mathematical Framework}
+\textbf{Latent Variables and Probabilistic Modeling}\\
+
+The VAE assumes that data (\(x\)) is generated from latent variables (\(z\)) via a likelihood distribution \(p(x \mid z)\). The joint probability distribution is:
+\[
+p(x, z) = p(x \mid z) p(z)
+\]
+The goal is to learn the posterior distribution \(p(z \mid x)\), which is computationally intractable. Instead, VAEs approximate it with \(q(z \mid x)\), a learned distribution.
+
+
+\textbf{Evidence Lower Bound (ELBO)}\\
+To train a VAE, the objective is to maximize the Evidence Lower Bound (ELBO):
+\[
+\text{ELBO} = \mathbb{E}_{q(z \mid x)}\big[\log(p(x \mid z))\big] - \text{KL}(q(z \mid x) \parallel p(z))
+\]
+
+
+\begin{itemize}
+    \item The first term ensures accurate reconstruction.
+    \item The second term (Kullback-Leibler divergence) regularizes the latent space by aligning q(z∣x) with a prior distribution (usually a standard normal distribution).
+\end{itemize}
+	
+\textbf{KL Divergence} \\
+
+The KL divergence quantifies the difference between two distributions:
+\[
+\text{KL}(q(z \mid x) \parallel p(z)) = \mathbb{E}_{q(z \mid x)}\big[\log(q(z \mid x)) - \log(p(z))\big]
+\]
+This term enforces smoothness and continuity in the latent space.
+
+
+\section{Applications of VAEs}
+Combining generative modelling and representation learning, Variational Autoencoders (VAEs) are extremely flexible and have revolutionised a number of fields. They are indispensable in a variety of applications due to their capacity to create new data and encode existing data as probability distributions:
+
+\begin{itemize}
+    \item Image Generation: VAEs are very good at creating new, realistic images based on training datasets. By spotting patterns in image sets, VAEs can generate a range of outputs, such as: Designing games, creating artistic content, and transferring styles.
+
+    \item Anomaly Detection: Because VAEs can learn the common patterns in datasets, they are ideal for identifying anomaly occurrences that significantly deviate from regular data. Here are some examples of applications: Cybersecurity, Quality Control, and Fraud Detection.
+
+    \item Drug Discovery: VAEs support molecular design by learning chemical characteristics from familiar molecules and constructing novel molecular structures. They support accelerated research and virtual screening.
+
+    \item Text Generation: In natural language processing (NLP), VAEs are effective at generating text that is both coherent and contextually relevant by learning from structured language datasets. Among the uses are language translation, content creation, and chatbots.
     
-    <h2>1. What is an Autoencoder?</h2>
-    <p>An artificial neural network type called an autoencoder is made to develop effective representations of input data, often known as latent representations. By teaching the network to reconstruct the input data from its compressed, encoded form, it accomplishes this. Since autoencoders learn directly from the data by minimising reconstruction error, they are regarded as unsupervised learning models because they do not require labelled input.</p>
 
-    <h2>Structure of an Autoencoder</h2>
-    <p>An autoencoder consists of two main parts:</p>
-    <ul>
-        <li><strong>Encoder:</strong> Compresses the input data into a compact, lower-dimensional latent representation, reducing data dimensionality while capturing its most important features.</li>
-        <li><strong>Decoder:</strong> Reconstructs the latent representation back into the original data space, attempting to regenerate an output closely resembling the input.</li>
-    </ul>
+    These uses highlight VAEs' adaptability and efficiency in a variety of fields, spurring creativity and resolving challenging real-world issues.
 
-    <h2>Applications of Autoencoders</h2>
-    <ul>
-        <li>Data Compression</li>
-        <li>Noise Reduction</li>
-        <li>Anomaly Detection</li>
-        <li>Feature Extraction</li>
-    </ul>
+\end{itemize}
 
-    <h2>2. Introduction to Variational Autoencoders (VAEs)</h2>
-    <p>VAEs extend standard autoencoders by incorporating a probabilistic framework. They encode inputs into distributions, enabling generative modeling and exploration of latent space.</p>
 
-    <h2>3. Key Components of VAEs</h2>
-    <p>VAEs include:</p>
-    <ul>
-        <li><strong>Encoder:</strong> Outputs mean and variance of the latent space distribution.</li>
-        <li><strong>Latent Space:</strong> A probabilistic representation allowing smooth transitions between points.</li>
-        <li><strong>Decoder:</strong> Reconstructs data from latent variables.</li>
-    </ul>
 
-    <h2>4. Mathematical Framework</h2>
-    <p>The VAE optimizes the Evidence Lower Bound (ELBO) to balance reconstruction accuracy and latent space regularization.</p>
 
-    <h2>5. Applications of VAEs</h2>
-    <ul>
-        <li>Image Generation</li>
-        <li>Anomaly Detection</li>
-        <li>Drug Discovery</li>
-        <li>Text Generation</li>
-    </ul>
 
-    <h2>6. Implementation of VAEs with Python</h2>
-    <p>Detailed steps include data preparation, defining the VAE model, training, and generating new data. Python libraries like PyTorch and torchvision are used.</p>
 
-    <h2>7. Challenges and Future Directions</h2>
-    <p>VAEs face challenges such as balancing KL divergence and reconstruction loss. Future advancements include hybrid models like VAE-GANs and domain-specific architectures.</p>
 
-    <footer>
-        <p><strong>References:</strong></p>
-        <ul>
-            <li>Bergmann, D., & Stryker, C. (2024). <em>Autoencoder</em>. IBM.</li>
-            <li>Choudhary, A. S. (2024). <em>An Overview of Variational Autoencoders</em>. Analytics Vidhya.</li>
-            <li>Jatasra, S. (2023). <em>Unravelling the Mysteries of Variational Autoencoders</em>.</li>
-        </ul>
-    </footer>
-</body>
-</html>
+
+
+\end{document}
+
