@@ -19,6 +19,15 @@ Variational Autoencoders (VAEs) are a type of deep learning model that enable ef
 <li>Implementation in Python using TensorFlow.</li>
 <li>Demonstration of latent space visualization and data generation.</li>
 
+<h5>DataSet:</h5>
+The Stanford Dogs Dataset is designed for fine-grained image categorization, featuring 20,580 images of 120 dog breeds. Built using ImageNet annotations, it includes class labels and bounding boxes for tasks like classification and object detection.
+
+Key Details:
+<li>Categories: 120 dog breeds</li>
+<li>Images: 20,580</li>
+<li>Annotations: Class labels and bounding boxes</li>
+Widely used for benchmarking, the dataset supports fine-grained visual recognition experiments.
+
 
 <h5>Key Concepts:</h5>
 <li>Latent Representations: A compressed and meaningful representation of input data.</li>
